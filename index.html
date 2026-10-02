@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="TASKFLOW - Advanced productivity and task management app">
+<title>PLANORA | Productivity Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<div class="brand-mark">✓</div>
+<div>
+<h1>PLANORA</h1>
+<span>PLAN. FOCUS. ACHIEVE.</span>
+</div>
+</div>
+<nav class="nav">
+<button class="nav-item active" data-view="dashboard"><span>⌂</span>Dashboard</button>
+<button class="nav-item" data-view="tasks"><span>☷</span>My Tasks</button>
+<button class="nav-item" data-view="important"><span>★</span>Important</button>
+<button class="nav-item" data-view="calendar"><span>▣</span>Calendar</button>
+<button class="nav-item" data-view="analytics"><span>◒</span>Analytics</button>
+<button class="nav-item" data-view="focus"><span>◷</span>Focus</button>
+</nav>
+<div class="sidebar-bottom">
+<button class="nav-item" data-view="settings"><span>⚙</span>Settings</button>
+<div class="level-card">
+<div class="level-top"><span>LEVEL <b id="levelValue">1</b></span><strong id="xpValue">0 XP</strong></div>
+<div class="xp-track"><i id="xpBar"></i></div>
+<small id="xpNext">100 XP to next level</small>
+</div>
+</div>
+</aside>
+<main class="main">
+<header class="topbar">
+<div>
+<p class="mobile-brand">PLANORA</p>
+<h2 id="pageTitle">Good day 👋</h2>
+<p id="pageSubtitle">Plan your work and keep your momentum.</p>
+</div>
+<div class="top-actions">
+<button class="icon-btn" id="notificationBtn" title="Enable notifications">♢</button>
+<button class="icon-btn" id="themeBtn" title="Toggle theme">☾</button>
+<button class="avatar">M</button>
+</div>
+</header>
+<section id="dashboardView" class="view active">
+<div class="hero-card">
+<div>
+<span class="eyebrow">YOUR PRODUCTIVITY HUB</span>
+<h3>Make today count.</h3>
+<p>Stay focused, finish important work and build your streak.</p>
+</div>
+<button class="primary-btn" id="heroAddBtn">+ New Task</button>
+</div>
+<div class="stat-grid">
+<div class="stat-card"><span>Total Tasks</span><strong id="totalStat">0</strong><small>All tasks</small></div>
+<div class="stat-card"><span>Completed</span><strong id="completedStat">0</strong><small>Finished</small></div>
+<div class="stat-card"><span>Pending</span><strong id="pendingStat">0</strong><small>Remaining</small></div>
+<div class="stat-card danger"><span>Overdue</span><strong id="overdueStat">0</strong><small>Needs attention</small></div>
+</div>
+<div class="dashboard-grid">
+<div class="panel">
+<div class="panel-head"><div><span class="section-label">TODAY</span><h3>Today's Tasks</h3></div><button class="text-btn" data-view-link="tasks">View all →</button></div>
+<div id="todayTasks" class="task-list compact-list"></div>
+</div>
+<div class="panel">
+<div class="panel-head"><div><span class="section-label">PROGRESS</span><h3>Daily Progress</h3></div><span id="todayPercent">0%</span></div>
+<div class="progress-ring-wrap">
+<div class="progress-ring"><svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"></circle><circle id="progressCircle" class="ring-value" cx="60" cy="60" r="50"></circle></svg><div><strong id="progressNumber">0%</strong><span>complete</span></div></div>
+<div class="progress-info"><p><b id="todayDone">0</b> completed today</p><p><b id="todayRemaining">0</b> remaining</p><p><b id="streakStat">0</b> day streak 🔥</p></div>
+</div>
+</div>
+</div>
+<div class="panel">
+<div class="panel-head"><div><span class="section-label">UP NEXT</span><h3>Upcoming Tasks</h3></div><button class="text-btn" data-view-link="calendar">Calendar →</button></div>
+<div id="upcomingTasks" class="task-list"></div>
+</div>
+</section>
+<section id="tasksView" class="view">
+<div class="view-head">
+<div><span class="section-label">WORKSPACE</span><h2>My Tasks</h2><p>Organize everything in one place.</p></div>
+<button class="primary-btn" id="addTaskBtn">+ Add Task</button>
+</div>
+<div class="toolbar">
+<div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search tasks, tags, categories..."></div>
+<div class="filter-row">
+<select id="statusFilter"><option value="all">All Status</option><option value="pending">Pending</option><option value="completed">Completed</option><option value="overdue">Overdue</option></select>
+<select id="priorityFilter"><option value="all">All Priority</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+<select id="categoryFilter"><option value="all">All Categories</option></select>
+<select id="sortSelect"><option value="custom">My Order</option><option value="date">Due Date</option><option value="priority">Priority</option><option value="recent">Recently Added</option><option value="alpha">Alphabetical</option></select>
+</div>
+</div>
+<div class="task-summary"><span id="taskCountLabel">0 tasks</span><span>Drag tasks to reorder</span></div>
+<div id="allTasks" class="task-list large-list"></div>
+</section>
+<section id="importantView" class="view">
+<div class="view-head"><div><span class="section-label">PRIORITY</span><h2>Important Tasks</h2><p>Your starred work.</p></div></div>
+<div id="importantTasks" class="task-list large-list"></div>
+</section>
+<section id="calendarView" class="view">
+<div class="view-head"><div><span class="section-label">SCHEDULE</span><h2>Calendar</h2><p>See what's coming next.</p></div></div>
+<div class="calendar-head"><button class="icon-btn" id="prevMonth">‹</button><h3 id="calendarTitle"></h3><button class="icon-btn" id="nextMonth">›</button></div>
+<div class="calendar-week"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+<div id="calendarGrid" class="calendar-grid"></div>
+<div id="calendarTasks" class="calendar-task-list"></div>
+</section>
+<section id="analyticsView" class="view">
+<div class="view-head"><div><span class="section-label">INSIGHTS</span><h2>Analytics</h2><p>Understand your productivity patterns.</p></div></div>
+<div class="analytics-cards">
+<div class="metric-card"><span>Completion Rate</span><strong id="completionRate">0%</strong></div>
+<div class="metric-card"><span>Current Streak</span><strong id="analyticsStreak">0 days</strong></div>
+<div class="metric-card"><span>Best Streak</span><strong id="bestStreak">0 days</strong></div>
+<div class="metric-card"><span>Total XP</span><strong id="analyticsXP">0</strong></div>
+</div>
+<div class="analytics-grid">
+<div class="panel"><div class="panel-head"><div><span class="section-label">LAST 7 DAYS</span><h3>Completion Activity</h3></div></div><div id="weeklyChart" class="weekly-chart"></div></div>
+<div class="panel"><div class="panel-head"><div><span class="section-label">BREAKDOWN</span><h3>Task Categories</h3></div></div><div id="categoryChart" class="category-chart"></div></div>
+</div>
+<div class="panel achievements-panel"><div class="panel-head"><div><span class="section-label">ACHIEVEMENTS</span><h3>Your Milestones</h3></div></div><div id="achievements" class="achievement-grid"></div></div>
+</section>
+<section id="focusView" class="view">
+<div class="focus-layout">
+<div class="focus-card">
+<span class="section-label">FOCUS MODE</span>
+<h2 id="focusTaskName">Choose a task</h2>
+<p id="focusTaskDescription">Select a task and start a focused session.</p>
+<div class="timer-circle"><div><strong id="timerDisplay">25:00</strong><span id="timerMode">FOCUS</span></div></div>
+<div class="timer-controls"><button class="primary-btn" id="timerStart">Start</button><button class="ghost-btn" id="timerReset">Reset</button></div>
+<div class="timer-presets"><button data-minutes="25">25 min</button><button data-minutes="15">15 min</button><button data-minutes="5">5 min</button></div>
+</div>
+<div class="panel focus-tasks"><div class="panel-head"><div><span class="section-label">SELECT TASK</span><h3>Focus Queue</h3></div></div><div id="focusTaskList" class="task-list"></div></div>
+</div>
+</section>
+<section id="settingsView" class="view">
+<div class="view-head"><div><span class="section-label">PREFERENCES</span><h2>Settings</h2><p>Customize your TASKFLOW experience.</p></div></div>
+<div class="settings-grid">
+<div class="panel settings-card">
+<h3>Appearance</h3>
+<label>Theme</label>
+<div class="theme-options"><button class="theme-option active" data-theme="light">Light</button><button class="theme-option" data-theme="dark">Dark</button><button class="theme-option" data-theme="violet">Violet</button></div>
+</div>
+<div class="panel settings-card">
+<h3>Data Management</h3>
+<p>Back up or restore your tasks.</p>
+<div class="settings-actions"><button class="ghost-btn" id="exportBtn">Export Data</button><button class="ghost-btn" id="importBtn">Import Data</button><input id="importFile" type="file" accept=".json" hidden></div>
+</div>
+<div class="panel settings-card">
+<h3>Notifications</h3>
+<p>Receive browser reminders for upcoming tasks.</p>
+<button class="primary-btn" id="settingsNotificationBtn">Enable Notifications</button>
+</div>
+<div class="panel settings-card danger-panel">
+<h3>Reset Application</h3>
+<p>This removes tasks, achievements, XP and preferences from this browser.</p>
+<button class="danger-btn" id="resetAppBtn">Reset Everything</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+<div id="taskModal" class="modal hidden">
+<div class="modal-card">
+<div class="modal-head"><div><span class="section-label">TASK EDITOR</span><h2 id="modalTitle">Create Task</h2></div><button class="close-btn" id="closeModal">×</button></div>
+<form id="taskForm">
+<input id="editTaskId" type="hidden">
+<div class="form-group"><label for="taskTitle">Task title *</label><input id="taskTitle" required maxlength="100" placeholder="What needs to be done?"></div>
+<div class="form-group"><label for="taskDescription">Description</label><textarea id="taskDescription" rows="3" maxlength="300" placeholder="Add some details..."></textarea></div>
+<div class="form-grid">
+<div class="form-group"><label for="taskDate">Due date</label><input id="taskDate" type="date"></div>
+<div class="form-group"><label for="taskTime">Due time</label><input id="taskTime" type="time"></div>
+</div>
+<div class="form-grid">
+<div class="form-group"><label for="taskPriority">Priority</label><select id="taskPriority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></div>
+<div class="form-group"><label for="taskCategory">Category</label><select id="taskCategory"><option value="College">College</option><option value="Coding">Coding</option><option value="Internship">Internship</option><option value="Personal">Personal</option><option value="Other">Other</option></select></div>
+</div>
+<div class="form-group"><label for="taskTags">Tags</label><input id="taskTags" placeholder="javascript, exam, project"></div>
+<div class="subtask-editor"><div class="subtask-head"><label>Subtasks</label><button type="button" class="text-btn" id="addSubtaskBtn">+ Add</button></div><div id="subtaskInputs"></div></div>
+<div class="modal-actions"><button type="button" class="ghost-btn" id="cancelTask">Cancel</button><button class="primary-btn" type="submit">Save Task</button></div>
+</form>
+</div>
+</div>
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
